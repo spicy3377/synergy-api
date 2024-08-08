@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { TalentsService } from './talents.service';
+import { TalentStatsDto } from './dto/talent-stats.dto';
 
 @Controller('dashboard')
 export class TalentsController {
@@ -23,5 +24,10 @@ export class TalentsController {
   @Get('verified-talents')
   async getVerifiedTalents() {
     return this.talentsService.getVerifiedTalents();
+  }
+
+  @Get('talents-stats')
+  async getTalentsStats(): Promise<TalentStatsDto[]> {
+    return this.talentsService.getTalentsStats();
   }
 }

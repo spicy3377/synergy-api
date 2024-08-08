@@ -6,7 +6,7 @@ import { Talent } from './talent.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Talent])],
-  controllers: [TalentsController],
   providers: [TalentsService],
+  controllers: [TalentsController],
 })
 export class TalentsModule {}

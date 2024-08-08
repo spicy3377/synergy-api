@@ -10,21 +10,26 @@ export class TalentsService {
     private talentsRepository: Repository<Talent>,
   ) {}
 
-  findAll(): Promise<Talent[]> {
-    return this.talentsRepository.find();
+  async getTotalNumberOfTalents(): Promise<number> {
+    return this.talentsRepository.count();
   }
 
-  findOne(id: number): Promise<Talent> {
-    return this.talentsRepository.findOne({ where: { id } });
+  async getTalentsPerWeek(): Promise<number> {
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    return this.talentsRepository.createQueryBuilder('talent')
+      .where('talent.createdAt >= :date', { date: oneWeekAgo.toISOString().split('T')[0] })
+      .getCount();
   }
 
-  create(talent: Talent): Promise<Talent> {
-    return this.talentsRepository.save(talent);
+  async getTalentsPerDay(): Promise<number> {
+    const today = new Date().toISOString().split('T')[0];
+    return this.talentsRepository.createQueryBuilder('talent')
+      .where('talent.createdAt = :date', { date: today })
+      .getCount();
   }
 
-  async remove(id: number): Promise<void> {
-    await this.talentsRepository.delete(id);
+  async getVerifiedTalents(): Promise<number> {
+    return this.talentsRepository.count({ where: { isVerified: true } });
   }
-
-  // Additional methods as needed
 }

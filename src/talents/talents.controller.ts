@@ -1,28 +1,27 @@
-import { Controller, Get, Post, Param, Body, Delete } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { TalentsService } from './talents.service';
-import { Talent } from './talent.entity';
 
-@Controller('talents')
+@Controller('dashboard')
 export class TalentsController {
   constructor(private readonly talentsService: TalentsService) {}
 
-  @Get()
-  findAll(): Promise<Talent[]> {
-    return this.talentsService.findAll();
+  @Get('total-talents')
+  async getTotalNumberOfTalents() {
+    return this.talentsService.getTotalNumberOfTalents();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Talent> {
-    return this.talentsService.findOne(Number(id));
+  @Get('talents-per-week')
+  async getTalentsPerWeek() {
+    return this.talentsService.getTalentsPerWeek();
   }
 
-  @Post()
-  create(@Body() talent: Talent): Promise<Talent> {
-    return this.talentsService.create(talent);
+  @Get('talents-per-day')
+  async getTalentsPerDay() {
+    return this.talentsService.getTalentsPerDay();
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.talentsService.remove(Number(id));
+  @Get('verified-talents')
+  async getVerifiedTalents() {
+    return this.talentsService.getVerifiedTalents();
   }
 }

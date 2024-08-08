@@ -1,23 +1,16 @@
-import { Document } from 'src/document.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('talents')
+@Entity()
 export class Talent {
-  @PrimaryGeneratedColumn({ type: 'int', unsigned: true }) // Matches `int unsigned`
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ type: 'datetime' }) // Matches `datetime`
-  created_at: Date;
-
-  @Column({ type: 'tinyint', default: 0 }) // Matches `tinyint(1)`
-  verified: boolean;
-
-  @Column({ type: 'varchar', length: 255 }) // Matches `varchar(255)`
+  @Column()
   name: string;
 
-  @Column({ type: 'varchar', length: 255 }) // Matches `varchar(255)`
-  role: string;
+  @Column()
+  isVerified: boolean;
 
-  @OneToMany(() => Document, (document) => document.talent)
-  documents: Document[];
+  @Column({ type: 'date' })
+  createdAt: string;
 }

@@ -1,1 +1,1 @@
-" Synergy-admin-api" 
+Synergy-admin-api

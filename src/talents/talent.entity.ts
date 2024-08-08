@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('talents')
 export class Talent {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   id: number;
 
   @Column()
@@ -11,6 +11,6 @@ export class Talent {
   @Column()
   isVerified: boolean;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true }) // Allow null if needed
   createdAt: string;
 }

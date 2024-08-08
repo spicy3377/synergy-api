@@ -17,14 +17,18 @@ export class TalentsService {
   async getTalentsPerWeek(): Promise<number> {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    return this.talentsRepository.createQueryBuilder('talent')
-      .where('talent.createdAt >= :date', { date: oneWeekAgo.toISOString().split('T')[0] })
+    return this.talentsRepository
+      .createQueryBuilder('talent')
+      .where('talent.createdAt >= :date', {
+        date: oneWeekAgo.toISOString().split('T')[0],
+      })
       .getCount();
   }
 
   async getTalentsPerDay(): Promise<number> {
     const today = new Date().toISOString().split('T')[0];
-    return this.talentsRepository.createQueryBuilder('talent')
+    return this.talentsRepository
+      .createQueryBuilder('talent')
       .where('talent.createdAt = :date', { date: today })
       .getCount();
   }

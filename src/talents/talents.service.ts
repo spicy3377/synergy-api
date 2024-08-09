@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Talent } from './talent.entity';
-import { TalentStatsDto } from './dto/talent-stats.dto';
+import { TalentResponseDto, TalentStatsDto } from './dto/talent-stats.dto';
 
 @Injectable()
 export class TalentsService {
@@ -20,7 +20,7 @@ export class TalentsService {
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     return this.talentsRepository
       .createQueryBuilder('talent')
-      .where('talent.createdAt >= :date', {
+      .where('talent.created_at >= :date', {
         date: oneWeekAgo.toISOString().split('T')[0],
       })
       .getCount();
@@ -30,12 +30,12 @@ export class TalentsService {
     const today = new Date().toISOString().split('T')[0];
     return this.talentsRepository
       .createQueryBuilder('talent')
-      .where('talent.createdAt = :date', { date: today })
+      .where('talent.created_at = :date', { date: today })
       .getCount();
   }
 
   async getVerifiedTalents(): Promise<number> {
-    return this.talentsRepository.count({ where: { isVerified: true } });
+    return this.talentsRepository.count({ where: { verified: true } });
   }
 
   async getTalentsStats(): Promise<TalentStatsDto[]> {
@@ -58,13 +58,42 @@ export class TalentsService {
     for (let month = 1; month <= 12; month++) {
       const count = await this.talentsRepository
         .createQueryBuilder('talent')
-        .where('YEAR(talent.createdAt) = :year', { year })
-        .andWhere('MONTH(talent.createdAt) = :month', { month })
+        .where('YEAR(talent.created_at) = :year', { year })
+        .andWhere('MONTH(talent.created_at) = :month', { month })
         .getCount();
 
       data.push(count);
     }
 
     return data;
+  }
+
+  async getAllTalents(): Promise<TalentResponseDto[]> {
+    const talents = await this.talentsRepository.find();
+
+    return talents.map((talent) => ({
+      id: talent.id,
+      first_name: talent.first_name,
+      last_name: talent.last_name,
+      email: talent.email,
+      username: talent.username,
+      profile_photo: talent.profile_photo,
+      phone: talent.phone,
+      about_you_completed: talent.about_you_completed,
+      career_completed: talent.career_completed,
+      credential_completed: talent.credential_completed,
+      career_profile_completed: talent.career_profile_completed,
+      current_salary: talent.current_salary,
+      desired_salary: talent.desired_salary,
+      employment_type: talent.employment_type,
+      employment_style: talent.employment_style,
+      employment_search_status: talent.employment_search_status,
+      professional_adventure: talent.professional_adventure,
+      career_plan: talent.career_plan,
+      career_achievement: talent.career_achievement,
+      career_quest: talent.career_quest,
+      profile_complete: talent.profile_complete,
+      isVerified: talent.verified,
+    }));
   }
 }

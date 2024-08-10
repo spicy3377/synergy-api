@@ -96,4 +96,9 @@ export class TalentsService {
       isVerified: talent.verified,
     }));
   }
+
+  async create(talentData: Partial<Talent>): Promise<Talent> {
+    const talent = this.talentsRepository.create(talentData);
+    return this.talentsRepository.save(talent);
+  }
 }

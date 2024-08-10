@@ -13,4 +13,9 @@ export class JobsService {
   async getAllJobs(): Promise<Job[]> {
     return await this.jobsRepository.find();
   }
+
+  async create(jobData: Partial<Job>): Promise<Job> {
+    const job = this.jobsRepository.create(jobData);
+    return this.jobsRepository.save(job);
+  }
 }

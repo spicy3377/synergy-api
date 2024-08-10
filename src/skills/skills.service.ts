@@ -13,4 +13,9 @@ export class SkillsService {
   async getAllSkills(): Promise<Skill[]> {
     return await this.skillsRepository.find();
   }
+
+  async create(skillData: Partial<Skill>): Promise<Skill> {
+    const skill = this.skillsRepository.create(skillData);
+    return this.skillsRepository.save(skill);
+  }
 }

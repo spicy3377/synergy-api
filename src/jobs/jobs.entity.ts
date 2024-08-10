@@ -7,4 +7,10 @@ export class Job {
 
   @Column()
   title: string;
+
+  @Column()
+  company: string;
+
+  @Column()
+  description: string;
 }

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { Job } from './jobs.entity';
 
@@ -9,5 +9,10 @@ export class JobsController {
   @Get()
   async getAllJobs(): Promise<Job[]> {
     return this.jobsService.getAllJobs();
+  }
+
+  @Post()
+  async create(@Body() createJobDto: Partial<Job>): Promise<Job> {
+    return this.jobsService.create(createJobDto);
   }
 }

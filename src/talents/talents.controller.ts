@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { TalentsService } from './talents.service';
 import { TalentResponseDto, TalentStatsDto } from './dto/talent-stats.dto';
+import { Talent } from './talent.entity';
 
 @Controller('dashboard')
 export class TalentsController {
@@ -34,5 +35,10 @@ export class TalentsController {
   @Get('all-talents')
   async getAllTalents(): Promise<TalentResponseDto[]> {
     return this.talentsService.getAllTalents();
+  }
+
+  @Post()
+  async create(@Body() createTalentDto: Partial<Talent>): Promise<Talent> {
+    return this.talentsService.create(createTalentDto);
   }
 }

@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('admins')
 export class Admin {
@@ -37,4 +43,22 @@ export class Admin {
 
   @Column({ type: 'timestamp', nullable: true })
   deleted_at: Date;
+}
+
+@Entity('reserved_usernames')
+export class ReservedUsername {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ unique: true })
+  username: string;
+
+  @Column({ nullable: true })
+  user_id: number;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

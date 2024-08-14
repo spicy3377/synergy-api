@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { TalentsService } from './talents.service';
 import { TalentResponseDto, TalentStatsDto } from './dto/talent-stats.dto';
 import { Talent } from './talent.entity';
@@ -48,5 +48,20 @@ export class TalentsController {
   @Post()
   async create(@Body() createTalentDto: Partial<Talent>): Promise<Talent> {
     return this.talentsService.create(createTalentDto);
+  }
+
+  @Post(':id/verify')
+  async verifyTalent(@Param('id') id: number) {
+    return this.talentsService.verifyTalent(id);
+  }
+
+  @Patch(':id/suspend')
+  async suspendTalent(@Param('id') id: number) {
+    return this.talentsService.suspendTalent(id);
+  }
+
+  @Patch(':id/remove-suspension')
+  async removeSuspension(@Param('id') id: number) {
+    return this.talentsService.removeSuspension(id);
   }
 }

@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TalentsModule } from './talents/talents.module';
 import { SkillsModule } from './skills/skills.module';
 import { JobsModule } from './jobs/jobs.module';
+import { EmployerContactRequestsModule } from './employer-contact-requests/employer-contact-requests.module';
+import { AdminModule } from './admin/admin.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -22,6 +24,8 @@ dotenv.config();
     TalentsModule,
     SkillsModule,
     JobsModule,
+    EmployerContactRequestsModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

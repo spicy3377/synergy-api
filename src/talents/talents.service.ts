@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Talent } from './talent.entity';
@@ -99,6 +99,36 @@ export class TalentsService {
 
   async create(talentData: Partial<Talent>): Promise<Talent> {
     const talent = this.talentsRepository.create(talentData);
+    return this.talentsRepository.save(talent);
+  }
+
+  async verifyTalent(id: number): Promise<Talent> {
+    const talent = await this.talentsRepository.findOne({ where: { id } });
+    if (!talent) {
+      throw new NotFoundException(`Talent with ID ${id} not found`);
+    }
+
+    talent.verified = true;
+    return this.talentsRepository.save(talent);
+  }
+
+  async suspendTalent(id: number): Promise<Talent> {
+    const talent = await this.talentsRepository.findOne({ where: { id } });
+    if (!talent) {
+      throw new NotFoundException(`Talent with ID ${id} not found`);
+    }
+
+    talent.is_suspended = true;
+    return this.talentsRepository.save(talent);
+  }
+
+  async removeSuspension(id: number): Promise<Talent> {
+    const talent = await this.talentsRepository.findOne({ where: { id } });
+    if (!talent) {
+      throw new NotFoundException(`Talent with ID ${id} not found`);
+    }
+
+    talent.is_suspended = false;
     return this.talentsRepository.save(talent);
   }
 }

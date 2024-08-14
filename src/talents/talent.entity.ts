@@ -68,6 +68,9 @@ export class Talent {
   @Column({ type: 'boolean', default: false })
   verified: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  is_suspended: boolean;
+
   @Column({ type: 'date', nullable: true })
   created_at: string;
 }
